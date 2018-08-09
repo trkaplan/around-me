@@ -1,0 +1,21 @@
+{
+  "configurations": [
+    {
+      "name": "Launch Program",
+      "type": "chrome",
+      "request": "launch",
+      "webRoot": "${workspaceRoot}/src",
+      "preLaunchTask": "npm: start",
+      "url": "http://localhost:3000",
+      "disableNetworkCache": true,
+      "sourceMaps": true,
+      "userDataDir": "${workspaceRoot}.vscode/chrome",
+      "sourceMapPathOverrides": {
+        "webpack:///*": "${webRoot}/../*",
+        "webpack:///./*": "${webRoot}/../*",
+        "webpack:///src/*": "${webRoot}/../src/*",
+        "webpack:///./~/*": "${webRoot}/../node_modules/*"
+      }
+    }
+  ]
+}
