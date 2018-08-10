@@ -1,5 +1,5 @@
 import { injectGlobal } from "styled-components"
-
+/* eslint-disable no-unused-expressions */
 injectGlobal`
   html {
     height:100%;
@@ -10,3 +10,4 @@ injectGlobal`
     
   }
 `
+/* eslint-enable */
