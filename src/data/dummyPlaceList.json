@@ -1,0 +1,44 @@
+[
+  {
+    "id": "p1",
+    "src": "dummy-images/dummy-place-cafe1.jpg",
+    "name": "Cafe One",
+    "favourited": true,
+    "rate": 9.2
+  },
+  {
+    "id": "p2",
+    "src": "dummy-images/dummy-place-cafe1.jpg",
+    "name": "Cafe Two",
+    "favourited": false,
+    "rate": 8.7
+  },
+  {
+    "id": "p3",
+    "src": "dummy-images/dummy-place-cafe1.jpg",
+    "name": "Cafe Two",
+    "favourited": false,
+    "rate": 7.0
+  },
+  {
+    "id": "p4",
+    "src": "dummy-images/dummy-place-cafe1.jpg",
+    "name": "Cafe Two",
+    "favourited": false,
+    "rate": 8.4
+  },
+  {
+    "id": "p5",
+    "src": "dummy-images/dummy-place-cafe1.jpg",
+    "name": "Cafe Two",
+    "favourited": false,
+    "rate": 8
+  },
+  {
+    "id": "p6",
+    "src": "dummy-images/dummy-place-cafe1.jpg",
+    "name": "Cafe Two",
+    "favourited": false,
+    "rate": 8.2
+  }
+]

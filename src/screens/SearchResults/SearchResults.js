@@ -1,10 +1,12 @@
 import React from "react"
+import PlaceList from "../../components/PlaceList"
+import dummyPlaceList from "../../data/dummyPlaceList.json"
 
 class SearchResults extends React.Component {
   state = {}
 
   render() {
-    return <h2>Search Results</h2>
+    return <PlaceList data={dummyPlaceList} />
   }
 }
 export default SearchResults
