@@ -6,6 +6,7 @@ import IconButton from "../IconButton"
 
 const Wrapper = styled.div`
   margin-top: 12%;
+  padding-right: 6px;
 `
 const StyledColumn = styled(Grid.Column)`
   padding: 0 !important;

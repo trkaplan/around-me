@@ -7,13 +7,12 @@ import SearchBar from "../../components/SearchBar"
 const Wrapper = styled.div`
   margin: 0 auto;
   text-align: center;
-  background-color: #4599ea;
 `
 
 const StyledLogo = styled.img`
   display: block;
   width: 70%;
-  margin: 0 auto;
+  margin: 30% auto 25% auto;
 `
 
 const HomePage = () => (
