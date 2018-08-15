@@ -1,6 +1,7 @@
 import React from "react"
 import { Image } from "semantic-ui-react"
 import PropTypes from "prop-types"
+import FavouriteButton from "../FavouriteButton"
 
 import { Wrapper, Title, BottomBar, Rate, Actions } from "./styled"
 
@@ -11,6 +12,7 @@ const PlaceCard = ({ imageURL, name, rate }) => (
       <Title>{name}</Title>
       <Actions>
         <Rate>{rate}</Rate>
+        <FavouriteButton />
       </Actions>
     </BottomBar>
   </Wrapper>
