@@ -3,15 +3,16 @@ import { Link } from "react-router-dom"
 import { Icon } from "semantic-ui-react"
 import PropTypes from "prop-types"
 import styled from "styled-components"
+import rem from "../../../utils/style-helper"
 
 const StyledLink = styled(Link)`
   display: block;
   margin: 0 auto;
-  font-size: 13px;
+  font-size: ${rem(13)};
   color: #f2f2f2;
-  letter-spacing: 1px;
-  padding: 8px 4px;
-  line-height: 1em;
+  letter-spacing: ${rem(1)};
+  padding: ${rem(8)} ${rem(4)};
+  line-height: ${rem(24)};
   text-align: center;
   user-select: none;
   -webkit-tap-highlight-color: transparent;
@@ -25,7 +26,7 @@ const StyledLink = styled(Link)`
 `
 
 const Label = styled.div`
-  margin: 2px;
+  margin: ${rem(2)};
 `
 
 const IconButton = ({ link, name, size, children }) => (

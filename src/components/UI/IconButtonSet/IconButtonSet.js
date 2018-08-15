@@ -3,10 +3,11 @@ import PropTypes from "prop-types"
 import { Grid } from "semantic-ui-react"
 import styled from "styled-components"
 import IconButton from "../IconButton"
+import rem from "../../../utils/style-helper"
 
 const Wrapper = styled.div`
   margin-top: 12%;
-  padding-right: 6px;
+  padding-right: ${rem(6)};
 `
 const StyledColumn = styled(Grid.Column)`
   padding: 0 !important;

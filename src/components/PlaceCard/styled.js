@@ -1,4 +1,5 @@
 import styled from "styled-components"
+import rem from "../../utils/style-helper"
 
 export const Wrapper = styled.div`
   background-color: #f2f2f2;
@@ -8,14 +9,14 @@ Wrapper.displayName = "Wrapper"
 
 export const Title = styled.h2`
   color: white;
-  padding-left: 12px;
+  padding-left: ${rem(12)};
   max-width: 70%;
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow: hidden;
   display: inline-block;
-  line-height: 1.3rem;
-  font-size: 1.3rem;
+  line-height: ${rem(24)};
+  font-size: ${rem(20)};
 `
 Title.displayName = "Title"
 
@@ -34,14 +35,14 @@ BottomBar.displayName = "BottomBar"
 
 export const Rate = styled.div`
   color: white;
-  border-radius: 4px;
+  border-radius: ${rem(4)};
   background-color: #3f9d2f;
-  min-width: 25px;
+  min-width: ${rem(24)};
   display: inline-block;
-  padding: 2px 6px 2px 6px
+  padding: ${rem(2)} ${rem(6)};
   text-align: center;
-  letter-spacing: 1px;
-  margin-right:12px;
+  letter-spacing: ${rem(1)};
+  margin-right: ${rem(12)};
 `
 Rate.displayName = "Rate"
 

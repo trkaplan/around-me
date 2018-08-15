@@ -1,14 +1,15 @@
 import React, { Component } from "react"
 import { Icon } from "semantic-ui-react"
 import styled from "styled-components"
+import rem from "../../utils/style-helper"
 
 const StyledIcon = styled(Icon)`
   color: #ff4070
   vertical-align: bottom
   && {
-    font-size: 24px;
-    line-height: 24px;
-    padding-right: 32px;
+    font-size: ${rem(24)}
+    line-height: ${rem(24)}
+    padding-right: ${rem(32)}
   }
 `
 
