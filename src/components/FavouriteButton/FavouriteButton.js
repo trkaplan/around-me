@@ -3,11 +3,12 @@ import { Icon } from "semantic-ui-react"
 import styled from "styled-components"
 
 const StyledIcon = styled(Icon)`
-  color: #ff4070;
-  vertical-align: bottom;
+  color: #ff4070
+  vertical-align: bottom
   && {
-    font-size: 24px
-    line-height: 24px
+    font-size: 24px;
+    line-height: 24px;
+    padding-right: 32px;
   }
 `
 
