@@ -12,11 +12,23 @@ export const addAPIData = apiData => ({
 })
 
 export function findPlaceFromText(keyword) {
+  const URL_SEARCH_NEARBY = `/maps/api/place/nearbysearch/json`
   const GOOGLE_API_KEY = "AIzaSyCsO8sOKRBmK3IMLfZolaRybUbEBQ6gYR0"
-  const URL_PLACE_SEARCH = `https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=${keyword}&inputtype=textquery&fields=photos,formatted_address,name,opening_hours,rating&locationbias=circle:2000@37.76999,-122.44696&key=${GOOGLE_API_KEY}`
+  const sampleLatLong = { latitude: 37.76999, longitude: -122.44696 }
+  const samplePlaceType = "restaurant"
+  const { latitude, longitude } = sampleLatLong
+
   return dispatch => {
     axios
-      .get(URL_PLACE_SEARCH)
+      .get(URL_SEARCH_NEARBY, {
+        params: {
+          location: `${latitude},${longitude}`,
+          radius: 1500,
+          type: samplePlaceType,
+          keyword,
+          key: GOOGLE_API_KEY
+        }
+      })
       .then(response => {
         dispatch(addAPIData(response.data))
       })

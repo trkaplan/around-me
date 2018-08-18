@@ -23,6 +23,16 @@
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
   },
+  "proxy": {
+    "/maps": {
+      "target": "https://maps.googleapis.com/maps",
+      "secure": true,
+      "changeOrigin": true,
+      "pathRewrite": {
+        "^/maps": ""
+      }
+    }
+  },
   "devDependencies": {
     "eslint": "^4.19.1",
     "eslint-config-airbnb": "^17.0.0",
