@@ -1,22 +1,22 @@
 import React from "react"
-import { Grid } from "semantic-ui-react"
 import PropTypes from "prop-types"
 import PlaceCard from "../PlaceCard"
+import StyledGrid from "./styled"
 
 const PlaceList = ({ places }) => (
-  <Grid stackable columns={4}>
+  <StyledGrid stackable columns={3}>
     {places &&
       places.map(place => (
-        <Grid.Column key={`place-${place.id}`}>
+        <StyledGrid.Column key={`place-${place.id}`}>
           <PlaceCard
             id={`/${place.id}`}
             imageURL={place.imageURL}
             name={place.name}
             rate={place.rate}
           />
-        </Grid.Column>
+        </StyledGrid.Column>
       ))}
-  </Grid>
+  </StyledGrid>
 )
 PlaceList.propTypes = {
   places: PropTypes.arrayOf(

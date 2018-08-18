@@ -1,13 +1,22 @@
 import React from "react"
-import { Image } from "semantic-ui-react"
 import PropTypes from "prop-types"
 import FavouriteButton from "../FavouriteButton"
 
-import { Wrapper, Title, BottomBar, Rate, Actions } from "./styled"
+import {
+  Wrapper,
+  ImageFrame,
+  StyledImage,
+  Title,
+  BottomBar,
+  Rate,
+  Actions
+} from "./styled"
 
 const PlaceCard = ({ imageURL, name, rate, favourited }) => (
   <Wrapper>
-    <Image src={imageURL} />
+    <ImageFrame>
+      <StyledImage src={imageURL} />
+    </ImageFrame>
     <BottomBar>
       <Title>{name}</Title>
       <Actions>

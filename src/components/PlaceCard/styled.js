@@ -1,4 +1,5 @@
 import styled from "styled-components"
+import { Image } from "semantic-ui-react"
 import rem from "../../utils/style-helper"
 
 export const Wrapper = styled.div`
@@ -39,7 +40,7 @@ export const Rate = styled.div`
   background-color: #3f9d2f;
   min-width: ${rem(24)};
   display: inline-block;
-  padding: ${rem(2)} ${rem(6)};
+  padding: ${rem(2)} 5%;
   text-align: center;
   letter-spacing: ${rem(1)};
   margin-right: ${rem(12)};
@@ -48,5 +49,20 @@ Rate.displayName = "Rate"
 
 export const Actions = styled.div`
   float: right;
+  text-align: right;
+  width: 30%;
 `
-Actions.displayName = "Actions"
+
+export const ImageFrame = styled.div`
+  height: ${rem(200)};
+  overflow: hidden;
+  border: ${rem(1)} solid black;
+`
+Actions.displayName = "ImageFrame"
+
+export const StyledImage = styled(Image)`
+  width: 100%;
+  top: 50%;
+  transform: translateY(-50%);
+`
+Actions.displayName = "StyledImage"

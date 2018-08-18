@@ -1,0 +1,13 @@
+import styled from "styled-components"
+import { Grid } from "semantic-ui-react"
+
+const StyledGrid = styled(Grid)`
+  margin: 0 !important;
+  &&& .column:not(.row) {
+    padding: 0 !important;
+  }
+`
+
+StyledGrid.displayName = "StyledGrid"
+
+export default StyledGrid
