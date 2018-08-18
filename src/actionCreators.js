@@ -18,13 +18,24 @@ export const showLoader = isLoading => ({
 export function findPlaceFromText(keyword) {
   const URL_SEARCH_NEARBY = `/maps/api/place/nearbysearch/json`
   const GOOGLE_API_KEY = "AIzaSyCsO8sOKRBmK3IMLfZolaRybUbEBQ6gYR0"
-  const sampleLatLong = { latitude: 37.76999, longitude: -122.44696 }
   const samplePlaceType = "restaurant"
-  const { latitude, longitude } = sampleLatLong
 
   function getPhotoUrl(photoId, apiKey) {
     const maxWidth = 400
     return ` /maps/api/place/photo?maxwidth=${maxWidth}&photoreference=${photoId}&key=${apiKey}`
+  }
+  function getCurrentPosition() {
+    return new Promise(resolve => {
+      const options = {
+        timeout: 5000,
+        maximumAge: 60000
+      }
+      function error(err) {
+        console.warn(`ERROR(${err.code}): ${err.message}`)
+      }
+
+      window.navigator.geolocation.getCurrentPosition(resolve, error, options)
+    })
   }
 
   function apiDataNormalizer(data) {
@@ -40,16 +51,18 @@ export function findPlaceFromText(keyword) {
   }
   return dispatch => {
     dispatch(showLoader(true))
-    axios
-      .get(URL_SEARCH_NEARBY, {
-        params: {
-          location: `${latitude},${longitude}`,
-          radius: 1500,
-          type: samplePlaceType,
-          keyword,
-          key: GOOGLE_API_KEY
-        }
-      })
+    getCurrentPosition()
+      .then(({ coords: { latitude, longitude } }) =>
+        axios.get(URL_SEARCH_NEARBY, {
+          params: {
+            location: `${latitude},${longitude}`,
+            radius: 1500,
+            type: samplePlaceType,
+            keyword,
+            key: GOOGLE_API_KEY
+          }
+        })
+      )
       .then(response => {
         const result = apiDataNormalizer(response.data.results)
         dispatch(addAPIData(result))
