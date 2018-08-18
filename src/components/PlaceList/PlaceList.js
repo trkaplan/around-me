@@ -3,27 +3,28 @@ import { Grid } from "semantic-ui-react"
 import PropTypes from "prop-types"
 import PlaceCard from "../PlaceCard"
 
-const PlaceList = ({ data }) => (
+const PlaceList = ({ places }) => (
   <Grid stackable columns={4}>
-    {data.map(place => (
-      <Grid.Column key={`place-${place.id}`}>
-        <PlaceCard
-          id={`/${place.id}`}
-          imageURL={`/${place.src}`}
-          name={place.name}
-          rate={place.rate}
-        />
-      </Grid.Column>
-    ))}
+    {places &&
+      places.map(place => (
+        <Grid.Column key={`place-${place.id}`}>
+          <PlaceCard
+            id={`/${place.id}`}
+            imageURL={place.imageURL}
+            name={place.name}
+            rate={place.rate}
+          />
+        </Grid.Column>
+      ))}
   </Grid>
 )
 PlaceList.propTypes = {
-  data: PropTypes.arrayOf(
+  places: PropTypes.arrayOf(
     PropTypes.shape({
-      id: PropTypes.string,
-      src: PropTypes.string,
-      name: PropTypes.string,
-      rate: PropTypes.number,
+      id: PropTypes.string.isRequired,
+      imageURL: PropTypes.string.isRequired,
+      name: PropTypes.string.isRequired,
+      rate: PropTypes.number.isRequired,
       favourited: PropTypes.bool
     }).isRequired
   ).isRequired

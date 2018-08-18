@@ -1,9 +1,9 @@
 import React, { Component } from "react"
 import { connect } from "react-redux"
 import PropTypes from "prop-types"
+import { Message, Loader } from "semantic-ui-react"
 import { findPlaceFromText } from "../../actionCreators"
 import PlaceList from "../../components/PlaceList"
-import dummyPlaceList from "../../data/dummyPlaceList.json"
 
 class SearchResults extends Component {
   componentDidMount() {
@@ -12,28 +12,44 @@ class SearchResults extends Component {
   }
 
   render() {
+    const { apiData, isLoading } = this.props
     return (
       <div>
         <h1>Search Results</h1>
-        <PlaceList data={dummyPlaceList} />
+        {isLoading && <Loader active inline="centered" />}
+        {!isLoading &&
+          apiData.toString() === "" && (
+            <Message warning content="No places found around:(" />
+          )}
+        {!isLoading && apiData && <PlaceList places={apiData} />}
       </div>
     )
   }
 }
 SearchResults.propTypes = {
   getAPIData: PropTypes.func.isRequired,
+  isLoading: PropTypes.bool.isRequired,
+  apiData: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.arrayOf(
+      PropTypes.shape({
+        id: PropTypes.string.isRequired,
+        imageURL: PropTypes.string.isRequired,
+        name: PropTypes.string.isRequired,
+        rate: PropTypes.number.isRequired,
+        favourited: PropTypes.bool
+      }).isRequired
+    )
+  ]).isRequired,
   searchTerm: PropTypes.string.isRequired
 }
 
-const mapStateToProps = (state, ownProps) => {
-  const apiData = state.apiData[ownProps.searchTerm]
-    ? state.apiData[ownProps.searchTerm]
-    : {}
-  return {
-    rating: apiData.rating,
-    searchTerm: state.searchTerm
-  }
-}
+const mapStateToProps = state => ({
+  searchTerm: state.searchTerm,
+  apiData: state.apiData,
+  location: state.location,
+  isLoading: state.isLoading
+})
 
 const mapDispatchToProps = dispatch => ({
   getAPIData: searchTerm => dispatch(findPlaceFromText(searchTerm))
