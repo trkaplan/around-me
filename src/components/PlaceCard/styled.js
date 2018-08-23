@@ -1,6 +1,7 @@
 import styled from "styled-components"
 import { Image } from "semantic-ui-react"
 import rem from "../../utils/style-helper"
+import media from "../../utils/media"
 
 export const Wrapper = styled.div`
   background-color: #f2f2f2;
@@ -17,6 +18,9 @@ export const Title = styled.h2`
   overflow: hidden;
   display: inline-block;
   line-height: ${rem(24)};
+  ${media.phoneLarge`font-size:${rem(20)}`};
+  ${media.desktop`font-size:${rem(18)}`};
+
   font-size: ${rem(20)};
 `
 Title.displayName = "Title"
@@ -54,6 +58,9 @@ export const Actions = styled.div`
 `
 
 export const ImageFrame = styled.div`
+  ${media.giant`height:${rem(170)}`};
+  ${media.tablet`height:${rem(170)}`};
+  ${media.desktop`height:${rem(200)}`};
   height: ${rem(200)};
   overflow: hidden;
   border: ${rem(1)} solid black;

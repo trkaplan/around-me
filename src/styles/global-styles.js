@@ -8,7 +8,8 @@ injectGlobal`
     ${media.giant`font-size: 17px`}
     ${media.desktop`font-size: 16px`}
     ${media.tablet`font-size: 15px`}
-    ${media.phone`font-size: 14px`}
+    ${media.phoneLarge`font-size: 14px`}
+    ${media.phone`font-size: 13px`}
   }
   body {
     background: linear-gradient(to bottom, #05abe0 0%,#15b4e4 32%,#2390b9 82%);

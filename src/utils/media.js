@@ -5,6 +5,7 @@ const sizes = {
   giant: 1170,
   desktop: 992,
   tablet: 767,
+  phoneLarge: 540,
   phone: 376
 }
 

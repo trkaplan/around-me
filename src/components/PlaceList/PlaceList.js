@@ -4,7 +4,7 @@ import PlaceCard from "../PlaceCard"
 import StyledGrid from "./styled"
 
 const PlaceList = ({ places }) => (
-  <StyledGrid stackable columns={3}>
+  <StyledGrid columns={3}>
     {places &&
       places.map(place => (
         <StyledGrid.Column key={`place-${place.id}`}>
