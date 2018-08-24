@@ -1,6 +1,7 @@
 import axios from "axios"
 import { SET_SEARCH_TERM, ADD_API_DATA, SHOW_LOADER } from "./actions"
 
+const URL_SEARCH_NEARBY = `/maps/api/place/nearbysearch/json`
 const GOOGLE_API_KEY = "AIzaSyCsO8sOKRBmK3IMLfZolaRybUbEBQ6gYR0"
 
 export const setSearchTerm = searchTerm => ({
@@ -33,10 +34,27 @@ export const getLocationFromIp = async () => {
   return apiCall(url, init)
 }
 
-export function findPlaceFromText(keyword) {
-  const URL_SEARCH_NEARBY = `/maps/api/place/nearbysearch/json`
-  const samplePlaceType = "restaurant"
+export function fetchPlaces(keyword, placeTypes, location) {
+  const { latitude, longitude } = location.coords
+  const placePromises = []
 
+  placeTypes.forEach(placeType => {
+    placePromises.push(
+      axios.get(URL_SEARCH_NEARBY, {
+        params: {
+          location: `${latitude},${longitude}`,
+          radius: 1500,
+          type: placeType,
+          keyword,
+          key: GOOGLE_API_KEY
+        }
+      })
+    )
+  })
+  return Promise.all(placePromises)
+}
+
+export function findPlaceFromText(keyword, placeTypes) {
   function getPhotoUrl(photoId, apiKey) {
     const maxWidth = 400
     return ` /maps/api/place/photo?maxwidth=${maxWidth}&photoreference=${photoId}&key=${apiKey}`
@@ -63,9 +81,12 @@ export function findPlaceFromText(keyword) {
     })
   }
 
-  function apiDataNormalizer(data) {
-    return data.map(place => ({
+  function apiDataNormalizer(response) {
+    const { type } = response.config.params
+    const places = response.data.results
+    const placesProcessed = places.map(place => ({
       id: place.place_id,
+      type,
       imageURL: place.photos
         ? getPhotoUrl(place.photos[0].photo_reference, GOOGLE_API_KEY)
         : "/images/photo_placeholder.jpg",
@@ -73,28 +94,25 @@ export function findPlaceFromText(keyword) {
       favourited: false,
       rate: place.rating || 0
     }))
+    return placesProcessed
   }
   return dispatch => {
     dispatch(showLoader(true))
-    getCurrentPosition()
-      .then(({ coords: { latitude, longitude } }) =>
-        axios.get(URL_SEARCH_NEARBY, {
-          params: {
-            location: `${latitude},${longitude}`,
-            radius: 1500,
-            type: samplePlaceType,
-            keyword,
-            key: GOOGLE_API_KEY
-          }
+
+    getCurrentPosition().then(location => {
+      fetchPlaces(keyword, placeTypes, location)
+        .then(responses => {
+          const result = []
+          responses.forEach(response =>
+            result.push(apiDataNormalizer(response))
+          )
+          const mergedResults = [].concat(...result)
+          dispatch(addAPIData(mergedResults))
+          dispatch(showLoader(false))
         })
-      )
-      .then(response => {
-        const result = apiDataNormalizer(response.data.results)
-        dispatch(addAPIData(result))
-        dispatch(showLoader(false))
-      })
-      .catch(error => {
-        console.error("axios error", error) // eslint-disable-line no-console
-      })
+        .catch(error => {
+          console.error("axios error", error) // eslint-disable-line no-console
+        })
+    })
   }
 }

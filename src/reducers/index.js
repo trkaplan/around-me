@@ -8,7 +8,7 @@ const searchTerm = (state = "", action) => {
   return state
 }
 
-const apiData = (state = "", action) => {
+const apiData = (state = [], action) => {
   if (action.type === ADD_API_DATA) {
     return action.payload
   }

@@ -4,11 +4,13 @@ import PropTypes from "prop-types"
 import { Message, Loader } from "semantic-ui-react"
 import { findPlaceFromText } from "../../actionCreators"
 import PlaceList from "../../components/PlaceList"
+import extractTypeAndKeyword from "../../utils/search-utils"
 
 class SearchResults extends Component {
   componentDidMount() {
     const { getAPIData, searchTerm } = this.props
-    getAPIData(searchTerm)
+    const { keyword, placeTypes } = extractTypeAndKeyword(searchTerm)
+    getAPIData(keyword, placeTypes)
   }
 
   render() {
@@ -26,21 +28,20 @@ class SearchResults extends Component {
     )
   }
 }
+
 SearchResults.propTypes = {
   getAPIData: PropTypes.func.isRequired,
   isLoading: PropTypes.bool.isRequired,
-  apiData: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.arrayOf(
-      PropTypes.shape({
-        id: PropTypes.string.isRequired,
-        imageURL: PropTypes.string.isRequired,
-        name: PropTypes.string.isRequired,
-        rate: PropTypes.number.isRequired,
-        favourited: PropTypes.bool
-      }).isRequired
-    )
-  ]).isRequired,
+  apiData: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.string.isRequired,
+      imageURL: PropTypes.string.isRequired,
+      name: PropTypes.string.isRequired,
+      type: PropTypes.string,
+      rate: PropTypes.number.isRequired,
+      favourited: PropTypes.bool
+    }).isRequired
+  ).isRequired,
   searchTerm: PropTypes.string.isRequired
 }
 
@@ -52,7 +53,8 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  getAPIData: searchTerm => dispatch(findPlaceFromText(searchTerm))
+  getAPIData: (searchTerm, placeTypes) =>
+    dispatch(findPlaceFromText(searchTerm, placeTypes))
 })
 
 export default connect(
