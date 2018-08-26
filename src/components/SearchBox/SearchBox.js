@@ -5,7 +5,7 @@ import PropTypes from "prop-types"
 import { connect } from "react-redux"
 import { setSearchTerm } from "../../actionCreators"
 
-class SearchBar extends Component {
+class SearchBox extends Component {
   searchPlace = ev => {
     const { searchTerm } = this.props
     if (ev.key === "Enter") {
@@ -29,7 +29,7 @@ class SearchBar extends Component {
     )
   }
 }
-SearchBar.propTypes = {
+SearchBox.propTypes = {
   history: PropTypes.shape({
     push: PropTypes.func.isRequired
   }).isRequired,
@@ -50,5 +50,5 @@ export default withRouter(
   connect(
     mapStateToProps,
     mapDispatchToProps
-  )(SearchBar)
+  )(SearchBox)
 )
