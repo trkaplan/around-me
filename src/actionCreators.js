@@ -1,5 +1,10 @@
 import axios from "axios"
-import { SET_SEARCH_TERM, ADD_API_DATA, SHOW_LOADER } from "./actions"
+import {
+  SET_SEARCH_TERM,
+  ADD_API_DATA,
+  SHOW_LOADER,
+  SET_PLACE_DETAILS
+} from "./actions"
 
 const URL_SEARCH_NEARBY = `/maps/api/place/nearbysearch/json`
 const GOOGLE_API_KEY = "AIzaSyCsO8sOKRBmK3IMLfZolaRybUbEBQ6gYR0"
@@ -18,6 +23,14 @@ export const showLoader = isLoading => ({
   payload: isLoading
 })
 
+export const setPlaceDetails = place => ({
+  type: SET_PLACE_DETAILS,
+  payload: place
+})
+export const clearPlaceDetails = () => ({
+  type: SET_PLACE_DETAILS,
+  payload: null
+})
 export const apiCall = async (url, init = null) => {
   try {
     const response = await fetch(url, init)
@@ -26,6 +39,11 @@ export const apiCall = async (url, init = null) => {
   } catch (error) {
     throw Error
   }
+}
+
+export function getPhotoUrl(photoId) {
+  const maxWidth = 400
+  return ` /maps/api/place/photo?maxwidth=${maxWidth}&photoreference=${photoId}&key=${GOOGLE_API_KEY}`
 }
 
 export const getLocationFromIp = async () => {
@@ -55,15 +73,10 @@ export function fetchPlaces(keyword, placeTypes, location) {
 }
 
 export function findPlaceFromText(keyword, placeTypes) {
-  function getPhotoUrl(photoId, apiKey) {
-    const maxWidth = 400
-    return ` /maps/api/place/photo?maxwidth=${maxWidth}&photoreference=${photoId}&key=${apiKey}`
-  }
-
   function getCurrentPosition() {
     return new Promise(resolve => {
       function error(err) {
-        console.warn(`ERROR(${err.code}): ${err.message}`)
+        console.warn(`ERROR(${err.code}): ${err.message}`) // eslint-disable-line no-console
         getLocationFromIp().then(response => {
           const { lat, lng } = response.location
           const defaultLocation = {
@@ -115,4 +128,29 @@ export function findPlaceFromText(keyword, placeTypes) {
         })
     })
   }
+}
+
+export const fetchPlaceDetails = ({ id }) => dispatch => {
+  function processResponse(response) {
+    const { result } = response
+    const { name, formatted_phone_number: phone, address } = result
+    const rating = result.rating ? result.rating : 0
+    const photos = result.photos
+      ? result.photos.map(photo => ({
+          url: getPhotoUrl(photo.photo_reference),
+          width: photo.width,
+          id: photo.photo_reference
+        }))
+      : [{ id: "no-photo", url: "/images/photo_placeholder.jpg" }]
+    return { name, rating, photos, phone, address }
+  }
+
+  const url = `/maps/api/place/details/json?placeid=${id}&fields=name,rating,photo,formatted_phone_number,formatted_address,website&key=${GOOGLE_API_KEY}`
+  const init = { method: "POST" }
+  dispatch(showLoader(true))
+  apiCall(url, init).then(response => {
+    const result = processResponse(response)
+    dispatch(showLoader(false))
+    dispatch(setPlaceDetails(result))
+  })
 }

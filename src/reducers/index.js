@@ -1,5 +1,10 @@
 import { combineReducers } from "redux"
-import { SET_SEARCH_TERM, ADD_API_DATA, SHOW_LOADER } from "../actions"
+import {
+  SET_SEARCH_TERM,
+  ADD_API_DATA,
+  SHOW_LOADER,
+  SET_PLACE_DETAILS
+} from "../actions"
 
 const searchTerm = (state = "", action) => {
   if (action.type === SET_SEARCH_TERM) {
@@ -14,12 +19,25 @@ const apiData = (state = [], action) => {
   }
   return state
 }
+
+const placeDetails = (state = null, action) => {
+  if (action.type === SET_PLACE_DETAILS) {
+    return action.payload
+  }
+  return state
+}
+
 const isLoading = (state = true, action) => {
   if (action.type === SHOW_LOADER) {
     return action.payload
   }
   return state
 }
-const rootReducer = combineReducers({ searchTerm, apiData, isLoading })
+const rootReducer = combineReducers({
+  searchTerm,
+  apiData,
+  isLoading,
+  placeDetails
+})
 
 export default rootReducer
