@@ -1,14 +1,23 @@
 import placeTypes from "../config/placeTypes"
 
 function extractTypeAndKeyword(searchString) {
-  let result = { placeTypes: "", keyword: searchString }
+  let result = {}
+  let defaultPlaceTypes
 
   for (let i = 0; i < placeTypes.length; i += 1) {
-    if (searchString.indexOf(placeTypes[i].name) > -1) {
-      result = { placeTypes: placeTypes[i].id, keyword: "" }
+    const placeType = placeTypes[i]
+    if (placeType.isDefault) {
+      defaultPlaceTypes = placeType.id
+    }
+    if (searchString.indexOf(placeType.name) > -1) {
+      result = { placeTypes: placeType.id, keyword: "" }
       break
     }
   }
+  if (!result.placeTypes) {
+    result = { placeTypes: defaultPlaceTypes, keyword: searchString }
+  }
+
   return result
 }
 

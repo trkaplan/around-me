@@ -1,7 +1,8 @@
 const placeTypes = [
   {
     name: "All",
-    id: ["restaurant", "art_gallery", "cafe"]
+    id: ["restaurant", "art_gallery", "cafe"],
+    isDefault: true
   },
   {
     name: "Restourants",
