@@ -9,6 +9,8 @@ import store from "../../store"
 import { setSearchTerm } from "../../actionCreators"
 import getCurrentPosition from "../../utils/geolocation"
 import GOOGLE_API_KEY from "../../config/keys"
+import debounce from "../../utils/debouncer"
+
 class SearchBox extends Component {
   state = {
     sessionToken: uuid()
@@ -80,7 +82,7 @@ class SearchBox extends Component {
           onKeyDown={this.handleOnKeyDown}
           onChange={this.handleOnChange}
           clearable
-          loadOptions={this.getSuggestions}
+          loadOptions={debounce(this.getSuggestions, 500)}
           defaultValue={{ label: "Select Place", value: 0 }}
           valueKey="value"
           labelKey="label"
