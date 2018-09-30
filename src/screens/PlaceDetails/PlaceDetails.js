@@ -98,7 +98,7 @@ PlaceDetails.propTypes = {
   fetchData: PropTypes.func.isRequired,
   clearData: PropTypes.func.isRequired,
   apiData: PropTypes.shape({
-    formatted_phone_number: PropTypes.string.isRequired,
+    phone: PropTypes.string.isRequired,
     name: PropTypes.string,
     rating: PropTypes.number.isRequired
   }),
