@@ -3,12 +3,10 @@ import { withRouter } from "react-router"
 import PropTypes from "prop-types"
 import { connect } from "react-redux"
 import AsyncSelect from "react-select/lib/Async"
-import axios from "axios"
 import uuid from "uuid/v4"
 import store from "../../store"
-import { setSearchTerm } from "../../actionCreators"
-import getCurrentPosition from "../../utils/geolocation"
-import GOOGLE_API_KEY from "../../config/keys"
+import { setSearchTerm, fetchLocation } from "../../actionCreators"
+import fetchPredictions from "../../utils/fetchPredictions"
 import debounce from "../../utils/debouncer"
 
 class SearchBox extends Component {
@@ -16,38 +14,21 @@ class SearchBox extends Component {
     sessionToken: uuid()
   }
 
+  componentDidMount() {
+    store.dispatch(fetchLocation())
+  }
+
   getSuggestions = async term => {
-    const { sessionToken } = this.state
-    const location = await getCurrentPosition()
-    const { latitude, longitude } = location.coords
     if (!term) {
       return Promise.resolve({ options: [] })
     }
-    return axios
-      .get(`/autocomplete/json`, {
-        headers: { "Content-Type": "application/json" },
-        params: {
-          input: term,
-          key: GOOGLE_API_KEY,
-          session_token: sessionToken,
-          types: "establishment",
-          location: `${latitude},${longitude}`,
-          radius: "1500",
-          strictbounds: true
-        }
-      })
-      .then(response => {
-        const { predictions } = response.data
-        let options = []
-
-        if (predictions) {
-          options = predictions.map(prediction => ({
-            value: prediction.place_id,
-            label: prediction.structured_formatting.main_text
-          }))
-        }
-        return options
-      })
+    const { sessionToken } = this.state
+    const { location } = this.props
+    return fetchPredictions({
+      sessionToken,
+      term,
+      location
+    })
   }
 
   handleOnKeyDown = ev => {
@@ -99,7 +80,8 @@ SearchBox.propTypes = {
   searchTerm: PropTypes.string.isRequired
 }
 const mapStateToProps = state => ({
-  searchTerm: state.searchTerm
+  searchTerm: state.searchTerm,
+  location: state.location
 })
 
 export default withRouter(connect(mapStateToProps)(SearchBox))

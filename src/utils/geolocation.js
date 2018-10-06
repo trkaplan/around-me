@@ -6,7 +6,20 @@ const getLocationFromIp = async () => {
   const init = { method: "POST" }
   return callApi(url, init)
 }
-const getCurrentPosition = async () =>
+
+// Turn an HTML5 Geoposition object into a regular object
+// https://github.com/zeke/geoposition-to-object
+
+export const geopositionToObject = geoposition => ({
+  timestamp: geoposition.timestamp,
+  coords: {
+    accuracy: geoposition.coords.accuracy,
+    latitude: geoposition.coords.latitude,
+    longitude: geoposition.coords.longitude
+  }
+})
+
+export const getCurrentPosition = async () =>
   new Promise(resolve => {
     function error(err) {
       console.warn(`ERROR(${err.code}): ${err.message}`) // eslint-disable-line no-console
@@ -25,5 +38,3 @@ const getCurrentPosition = async () =>
     }
     window.navigator.geolocation.getCurrentPosition(resolve, error, options)
   })
-
-export default getCurrentPosition

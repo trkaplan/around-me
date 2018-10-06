@@ -2,17 +2,39 @@ import axios from "axios"
 import GOOGLE_API_KEY from "./config/keys"
 import {
   SET_SEARCH_TERM,
+  SET_LOCATION,
   ADD_API_DATA,
   SHOW_LOADER,
   SET_PLACE_DETAILS
 } from "./actions"
-import getCurrentPosition from "./utils/geolocation"
+import { geopositionToObject, getCurrentPosition } from "./utils/geolocation"
 import callApi from "./utils/apiCaller"
 
 export const setSearchTerm = searchTerm => ({
   type: SET_SEARCH_TERM,
   payload: searchTerm
 })
+
+export const setLocation = location => ({
+  type: SET_LOCATION,
+  payload: location
+})
+function showError(description, error) {
+  return {
+    type: "SHOW_ERROR",
+    description,
+    error
+  }
+}
+export const fetchLocation = () => dispatch =>
+  getCurrentPosition().then(
+    position => {
+      const location = geopositionToObject(position)
+      dispatch(setLocation(location))
+      return location
+    },
+    error => dispatch(showError("fetching location failed", error))
+  )
 
 export const addAPIData = apiData => ({
   type: ADD_API_DATA,
