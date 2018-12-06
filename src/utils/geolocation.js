@@ -1,9 +1,8 @@
-import GOOGLE_API_KEY from "../config/keys"
 import callApi from "./apiCaller"
 
 const getLocationFromIp = async () => {
-  const url = `https://www.googleapis.com/geolocation/v1/geolocate?key=${GOOGLE_API_KEY}`
-  const init = { method: "POST" }
+  const url = "https://ipapi.co/json"
+  const init = { method: "POST"}
   return callApi(url, init)
 }
 
@@ -24,10 +23,10 @@ export const getCurrentPosition = async () =>
     function error(err) {
       console.warn(`ERROR(${err.code}): ${err.message}`) // eslint-disable-line no-console
       getLocationFromIp().then(response => {
-        const { lat, lng } = response.location
+        const { latitude, longitude } = response
         const defaultLocation = {
           title: "Current Location",
-          coords: { latitude: lat, longitude: lng }
+          coords: { latitude, longitude }
         }
         resolve(defaultLocation)
       })
